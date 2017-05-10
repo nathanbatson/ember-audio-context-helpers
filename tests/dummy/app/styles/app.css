@@ -1,0 +1,53 @@
+.box {
+    background: #ddd;
+    width: 50px;
+    height: 50px;
+    display: block;
+    transition: all 100ms ease-in-out;
+    display: inline-block;
+}
+
+.green {
+    background: #33ffdd;
+}
+
+.grow{
+    transform: scaleX(1.15) scaleY(1.15);
+    transition: all 120ms cubic-bezier(.62,0,.39,1);
+}
+
+
+/* custom animations */
+
+.wub-wub{
+  animation: scale-frames ease-in-out 100ms;
+  animation-iteration-count: infinite;
+  animation-delay: 120ms;
+  transform-origin: 50% 50%;
+}
+
+.vibrate{
+  animation: scale-frames ease-in-out 75ms;
+  animation-iteration-count: infinite;
+  animation-delay: 120ms;
+  transform-origin: 50% 50%;
+}
+
+.crash{
+  animation: scale-frames ease-in-out 50ms;
+  animation-iteration-count: infinite;
+  animation-delay: 120ms;
+  transform-origin: 50% 50%;
+}
+
+@keyframes scale-frames{
+  0% {
+    transform:  scaleX(1.00) scaleY(1.00) ;
+  }
+  50% {
+    transform:  scaleX(1.15) scaleY(1.15) ;
+  }
+  100% {
+    transform:  scaleX(1.00) scaleY(1.00) ;
+  }
+}

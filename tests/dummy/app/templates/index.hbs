@@ -1,0 +1,10 @@
+<h1>Audio Context CSS Class Helpers</h1>
+
+{{audio-source src="/what-we-came-to-do.mp3" controls=true}}
+
+<h2>Defaults</h2>
+
+<div class="box {{audio-transition "lowpass"  threshold=220 onClass="green wub-wub"}}"></div>
+<div class="box {{audio-transition "bandpass" threshold=150 onClass="green vibrate"}}"></div>
+<div class="box {{audio-transition "highpass" threshold=150 onClass="green crash"}}"></div>
+<div class="box {{audio-transition "volume"   threshold=150 onClass="green"}}"></div>
