@@ -29,7 +29,8 @@ export default Service.extend({
     analyser: null,
     bufferLength: 0,
     frequencyData: null,
-    animationFrame: null,
+    sourceElement: null,
+    audioElement: null,
     processors: [],
 
     init() {
@@ -56,6 +57,7 @@ export default Service.extend({
 
         set(this, 'bufferLength', bufferLength);
         set(this, 'frequencyData', frequencyData);
+        set(this, 'audioElement', audioElement)
         requestAnimationFrame(this.process.bind(this));
     },
 
@@ -70,6 +72,7 @@ export default Service.extend({
         let animationFrame = requestAnimationFrame(this.process.bind(this));
         set(this, 'animationFrame', animationFrame);
         
+        let audioElement = get(this, 'audioElement');
         let processors = get(this, 'processors');
         let bufferLength = get(this, 'bufferLength');
         let frequencyData = get(this, 'frequencyData');
@@ -95,10 +98,18 @@ export default Service.extend({
                 average: sampleTotal/(freqRange.high - freqRange.low),
                 high: sampleHigh
             }
-        })
+        });
 
-        processors.forEach(function(callback){
-            callback(processedData);
+        processedData['time'] = {
+            duration: audioElement.duration,
+            currentTime: audioElement.currentTime,
+            percentComplete: Math.round((audioElement.currentTime/audioElement.duration) * 10000) / 10000
+        }
+
+        Ember.run.join(() => {
+            processors.forEach(function(callback){
+                callback(processedData);
+            });
         });
     }
 });

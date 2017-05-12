@@ -8,3 +8,14 @@
 <div class="box {{audio-transition "bandpass" threshold=150 onClass="green vibrate"}}"></div>
 <div class="box {{audio-transition "highpass" threshold=150 onClass="green crash"}}"></div>
 <div class="box {{audio-transition "volume"   threshold=150 onClass="green"}}"></div>
+
+<div class="box {{audio-transition "lowpass"  threshold=220 sample="high" onClass="green wub-wub"}}"></div>
+<div class="box {{audio-transition "bandpass" threshold=150 sample="high" onClass="green vibrate"}}"></div>
+<div class="box {{audio-transition "highpass" threshold=150 sample="high" onClass="green crash"}}"></div>
+<div class="box {{audio-transition "volume"   threshold=150 sample="high" onClass="green"}}"></div>
+
+<div class="box green" style="transform: rotate(calc(360deg * {{audio-progress "percentComplete"}}));"></div>
+
+<h5>{{audio-progress "percentComplete"}}</h5>
+<h5>{{audio-progress "duration"}}</h5>
+<h5>{{audio-progress "currentTime"}}</h5>

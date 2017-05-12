@@ -22,13 +22,13 @@ export default Ember.Helper.extend({
         shouldTrip = get(processedData, filter + '.' + sample) >= threshold;
 
         if (filter) {
-            Ember.run.join(() => {
+            // Ember.run.join(() => {
                 set(this, 'tripped', shouldTrip);
 
                 if(tripped !== shouldTrip) {
                     this.recompute();
                 }      
-            });
+            // });
         }
     },
     

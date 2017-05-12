@@ -1,10 +1,14 @@
 .box {
-    background: #ddd;
+    background: #fff;
     width: 50px;
     height: 50px;
     display: block;
     transition: all 100ms ease-in-out;
     display: inline-block;
+}
+
+.time-transition {
+    transition: all 100ms ease-in;
 }
 
 .green {
