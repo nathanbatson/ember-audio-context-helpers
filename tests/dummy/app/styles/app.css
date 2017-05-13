@@ -1,14 +1,17 @@
 .box {
-    background: #fff;
+    background: #ffffff;
     width: 50px;
     height: 50px;
+    margin: 5px;
     display: block;
-    transition: all 100ms ease-in-out;
+    transition: all 150ms ease-in-out;
+    border: 1px solid rgba(0, 0, 0, 0.15);
     display: inline-block;
+    position: relative;
 }
 
 .time-transition {
-    transition: all 100ms ease-in;
+    transition: all 50ms ease-in;
 }
 
 .green {
@@ -16,12 +19,11 @@
 }
 
 .grow{
-    transform: scaleX(1.15) scaleY(1.15);
+    margin: 0;
+    width: 60px;
+    height: 60px;
     transition: all 120ms cubic-bezier(.62,0,.39,1);
 }
-
-
-/* custom animations */
 
 .wub-wub{
   animation: scale-frames ease-in-out 100ms;
@@ -54,4 +56,18 @@
   100% {
     transform:  scaleX(1.00) scaleY(1.00) ;
   }
+}
+
+
+/* dummy layout */
+.header {
+    background: #efefef;
+    padding: 15px;
+    margin-bottom: 30px;
+}
+
+footer {
+    margin-top: 50px;
+    padding: 15px;
+    background: #efefef;
 }

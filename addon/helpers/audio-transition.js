@@ -1,11 +1,12 @@
 import Ember from 'ember';
 
-const { inject: { service }, computed, get, set } = Ember;
+const { inject: { service }, get, set } = Ember;
 
 export default Ember.Helper.extend({
+    audioContext: service(),
+
     threshold: null,
     tripped: false,
-    audioContext: service(),
 
     init(){
         this._super();
@@ -22,13 +23,11 @@ export default Ember.Helper.extend({
         shouldTrip = get(processedData, filter + '.' + sample) >= threshold;
 
         if (filter) {
-            // Ember.run.join(() => {
-                set(this, 'tripped', shouldTrip);
+            set(this, 'tripped', shouldTrip);
 
-                if(tripped !== shouldTrip) {
-                    this.recompute();
-                }      
-            // });
+            if(tripped !== shouldTrip) {
+                this.recompute();
+            }
         }
     },
     

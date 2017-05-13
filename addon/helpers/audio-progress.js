@@ -1,11 +1,12 @@
 import Ember from 'ember';
 
-const { inject: { service }, computed, get, set } = Ember;
+const { inject: { service }, get, set } = Ember;
 
 export default Ember.Helper.extend({
+    audioContext: service(),
+
     key: null,
     timeData: null,
-    audioContext: service(),
 
     init(){
         this._super();
@@ -17,12 +18,8 @@ export default Ember.Helper.extend({
         let timeData = processedData['time'][key];
 
         if (timeData !== get(this, 'timeData')) {
-            // console.log('timedata');
-
-            // Ember.run.join(() => {
-                set(this, 'timeData', timeData);
-                this.recompute();
-            // });
+            set(this, 'timeData', timeData);
+            this.recompute();
         }
     },
     

@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { Service, computed, get, set } = Ember;
+const { Service, get, set } = Ember;
 const freqRanges = [
     {
         name: 'lowpass',
@@ -29,7 +29,6 @@ export default Service.extend({
     analyser: null,
     bufferLength: 0,
     frequencyData: null,
-    sourceElement: null,
     audioElement: null,
     processors: [],
 
@@ -61,23 +60,29 @@ export default Service.extend({
         requestAnimationFrame(this.process.bind(this));
     },
 
-    addProcessor(func) {
+    // TODO: add a counter to create a uniqe id for a processor, and pass back to helper for teardown
+    addProcessor(func, helperId) {
         let processors = get(this, 'processors');
         processors.push(func);
     },
 
-    /* TODO: wire up multiple analysers with BiquadFilterNodes for better quality values */ 
+    // TODO: implement clean teardown via helper ID.
+    removeProcessor(helperId) {
 
+    },
+
+    /* TODO: wire up multiple analysers with BiquadFilterNodes for better quality values */ 
     process() {
         let animationFrame = requestAnimationFrame(this.process.bind(this));
-        set(this, 'animationFrame', animationFrame);
-        
         let audioElement = get(this, 'audioElement');
         let processors = get(this, 'processors');
         let bufferLength = get(this, 'bufferLength');
         let frequencyData = get(this, 'frequencyData');
         let analyser = get(this, 'analyser');
         let processedData = {};
+
+        // Keep this handy incase we need to tear down and cancel the loop with new audio.
+        set(this, 'animationFrame', animationFrame);
 
         analyser.getByteFrequencyData(frequencyData);
 
@@ -106,6 +111,7 @@ export default Service.extend({
             percentComplete: Math.round((audioElement.currentTime/audioElement.duration) * 10000) / 10000
         }
 
+        // Run join disables some throttling and allows for helper recompute() to render properly.
         Ember.run.join(() => {
             processors.forEach(function(callback){
                 callback(processedData);

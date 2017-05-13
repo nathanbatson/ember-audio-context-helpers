@@ -1,21 +1,104 @@
-<h1>Audio Context CSS Class Helpers</h1>
-
+<h5>Click play, seriously, otherwise there's no point</h5>
 {{audio-source src="/what-we-came-to-do.mp3" controls=true}}
 
-<h2>Defaults</h2>
+<h2>Transition Helper</h2>
+<p>The transition helper's output is the desired CSS classes when a frequency rage crosses a defined threshold. The idea is to return a string (CSS3 animation class name) when above that threshold, and remove it when below.</p>  
 
-<div class="box {{audio-transition "lowpass"  threshold=220 onClass="green wub-wub"}}"></div>
-<div class="box {{audio-transition "bandpass" threshold=150 onClass="green vibrate"}}"></div>
-<div class="box {{audio-transition "highpass" threshold=150 onClass="green crash"}}"></div>
-<div class="box {{audio-transition "volume"   threshold=150 onClass="green"}}"></div>
+<hr />
 
-<div class="box {{audio-transition "lowpass"  threshold=220 sample="high" onClass="green wub-wub"}}"></div>
-<div class="box {{audio-transition "bandpass" threshold=150 sample="high" onClass="green vibrate"}}"></div>
-<div class="box {{audio-transition "highpass" threshold=150 sample="high" onClass="green crash"}}"></div>
-<div class="box {{audio-transition "volume"   threshold=150 sample="high" onClass="green"}}"></div>
+<h4>Filters (lowpass|bandpass|highpass|volume)</h4>
+<p>The band of frequencies to trigger classes for, lowpass for bass, bandpass for mid range, highpass for trebble.</p>
+<div class="row">
+    <div class="col-sm-3">
+        <h5>Low Pass</h5>
+        <div class="box {{audio-transition "lowpass"  onClass="green wub-wub"}}"></div>
+    </div>
+    <div class="col-sm-3">
+        <h5>Band Pass</h5>
+        <div class="box {{audio-transition "bandpass" onClass="green vibrate"}}"></div>
+    </div>
+    <div class="col-sm-3">
+        <h5>High Pass</h5>
+        <div class="box {{audio-transition "highpass" onClass="green crash"}}"></div>
+    </div>
+    <div class="col-sm-3">
+        <h5>Volume (full frequency range)</h5>
+        <div class="box {{audio-transition "volume"   onClass="green"}}"></div>
+    </div>
+</div>
 
-<div class="box green" style="transform: rotate(calc(360deg * {{audio-progress "percentComplete"}}));"></div>
+<hr />
 
-<h5>{{audio-progress "percentComplete"}}</h5>
-<h5>{{audio-progress "duration"}}</h5>
-<h5>{{audio-progress "currentTime"}}</h5>
+<h4>Sample (total|average|high|)</h4>
+<p>Data set to check peak values against, high triggers more often, average is catches more spikes in a spectrum, total is granular.</p>
+<div class="row">
+    <div class="col-sm-3">
+        <h5>Low Pass, high</h5>
+        <div class="box {{audio-transition "lowpass" threshold=200 sample="high" onClass="green wub-wub"}}"></div>
+    </div>
+    <div class="col-sm-3">
+        <h5>Low Pass, average</h5>
+        <div class="box {{audio-transition "lowpass" threshold=200 sample="average" onClass="green wub-wub"}}"></div>
+    </div>
+    <div class="col-sm-3">
+        <h5>Low Pass, total</h5>
+        <div class="box {{audio-transition "lowpass" threshold=2200 sample="total" onClass="green wub-wub"}}"></div>
+    </div>
+</div>
+
+<hr />
+
+<h4>Threshold (0-256)</h4>
+<p>The value where if the sample is greater, it will trigger onClass to be returned.</p>
+<div class="row">
+    <div class="col-sm-3">
+        <h5>Low Pass, average sample, threshold=100</h5>
+        <div class="box {{audio-transition "lowpass" threshold=100 onClass="green wub-wub"}}"></div>
+    </div>
+    <div class="col-sm-3">
+        <h5>Low Pass, average sample, threshold=150</h5>
+        <div class="box {{audio-transition "lowpass" threshold=150 onClass="green wub-wub"}}"></div>
+    </div>
+    <div class="col-sm-3">
+        <h5>Low Pass, average sample, threshold=200</h5>
+        <div class="box {{audio-transition "lowpass" threshold=200 onClass="green wub-wub"}}"></div>
+    </div>
+    <div class="col-sm-3">
+        <h5>Low Pass, average sample, threshold=220</h5>
+        <div class="box {{audio-transition "lowpass" threshold=250 onClass="green wub-wub"}}"></div>
+    </div>
+</div>
+
+<h2>Progress Helper</h2>
+<p>This helper returns duration (in seconds), current time (in seconds), and percent complete (a number between 0 and 1 to represent the progress through the audio source connected to the audio-context service).  It can be used in CSS calc() values or just output.</p> 
+
+<div class="row">
+    <div class="col-sm-3">
+        <h5>Progress Percent</h5>
+        <p>{{audio-progress "percentComplete"}}</p>
+    </div>
+    <div class="col-sm-3">
+        <h5>Progress duration</h5>
+        <p>{{audio-progress "duration"}}</p>
+    </div>
+    <div class="col-sm-3">
+        <h5>Progress currentTime</h5>
+        <p>{{audio-progress "currentTime"}}</p>
+    </div>
+</div>
+
+<h2>Performance?</h2>
+<p>Here's 200 animated squares</p> 
+
+<div class="square-demo">
+    {{#each demoArray as |dummy| }}
+        <div class="box {{audio-transition "lowpass"  onClass="green grow"}}"></div>
+        <div class="box {{audio-transition "bandpass" onClass="green grow"}}"></div>
+        <div class="box {{audio-transition "highpass" onClass="green grow"}}"></div>
+        <div class="box {{audio-transition "volume"   onClass="green grow"}}"></div>
+        <div class="box {{audio-transition "lowpass"  sample="high" onClass="green"}}"></div>
+        <div class="box {{audio-transition "bandpass" sample="high" onClass="green"}}"></div>
+        <div class="box {{audio-transition "highpass" sample="high" onClass="green"}}"></div>
+        <div class="box {{audio-transition "volume"   sample="high" onClass="green"}}"></div>
+    {{/each}}
+</div>
