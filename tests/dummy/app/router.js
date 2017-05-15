@@ -7,6 +7,10 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+    this.route('demos', function(){
+        this.route('death-metal');
+        this.route('hip-hop');
+    });
 });
 
 export default Router;

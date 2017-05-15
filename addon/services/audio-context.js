@@ -30,7 +30,8 @@ export default Service.extend({
     bufferLength: 0,
     frequencyData: null,
     audioElement: null,
-    processors: [],
+    helperCount: 0,
+    processors: Ember.A([]),
 
     init() {
         this._super(...arguments);
@@ -51,7 +52,6 @@ export default Service.extend({
         analyser.fftSize = 1024;
 
         let bufferLength = analyser.frequencyBinCount;
-        console.log(bufferLength);
         let frequencyData = new Uint8Array(bufferLength);
 
         set(this, 'bufferLength', bufferLength);
@@ -60,15 +60,22 @@ export default Service.extend({
         requestAnimationFrame(this.process.bind(this));
     },
 
-    // TODO: add a counter to create a uniqe id for a processor, and pass back to helper for teardown
-    addProcessor(func, helperId) {
+    addProcessor(func) {
         let processors = get(this, 'processors');
-        processors.push(func);
+        let helperCount = get(this, 'helperCount');
+        let helperId = "helper-" + get(this, 'helperCount');
+
+        this.incrementProperty('helperCount');
+        processors.push({helperId: helperId, func: func});
+
+        return helperId;
     },
 
-    // TODO: implement clean teardown via helper ID.
     removeProcessor(helperId) {
-
+        let processors = get(this, 'processors');
+        let processor = processors.findBy('helperId', helperId);
+        processor.func = null;
+        processors.removeObject(processor);
     },
 
     /* TODO: wire up multiple analysers with BiquadFilterNodes for better quality values */ 
@@ -113,8 +120,8 @@ export default Service.extend({
 
         // Run join disables some throttling and allows for helper recompute() to render properly.
         Ember.run.join(() => {
-            processors.forEach(function(callback){
-                callback(processedData);
+            processors.forEach(function(processor){
+                processor.func(processedData);
             });
         });
     }

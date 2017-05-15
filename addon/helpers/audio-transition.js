@@ -1,17 +1,11 @@
 import Ember from 'ember';
+import audioProcessor from 'ember-audio-animation/helpers/mixins/audio-processor';
 
 const { inject: { service }, get, set } = Ember;
 
-export default Ember.Helper.extend({
-    audioContext: service(),
-
+export default Ember.Helper.extend(audioProcessor, {
     threshold: null,
     tripped: false,
-
-    init(){
-        this._super();
-        get(this, 'audioContext').addProcessor(this.processor.bind(this));
-    },
     
     processor(processedData){
         let shouldTrip = false;

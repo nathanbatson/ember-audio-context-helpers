@@ -1,17 +1,11 @@
 import Ember from 'ember';
+import audioProcessor from 'ember-audio-animation/helpers/mixins/audio-processor';
 
 const { inject: { service }, get, set } = Ember;
 
-export default Ember.Helper.extend({
-    audioContext: service(),
-
+export default Ember.Helper.extend(audioProcessor, {
     key: null,
     timeData: null,
-
-    init(){
-        this._super();
-        get(this, 'audioContext').addProcessor(this.processor.bind(this));
-    },
     
     processor(processedData){
         let key = get(this, 'key');
@@ -23,7 +17,7 @@ export default Ember.Helper.extend({
         }
     },
     
-    compute(params, hash) {
+    compute(params) {
         let key = params[0] || 'currentTime';
         set(this, 'key', key);
 
